@@ -1,0 +1,7 @@
+[tool.poetry]
+name = "gpt_function"
+version = "0.1.0"
+description = "A decorator for wrapping Python functions to generate an OpenAI GPT function calling schema."
+authors = ["PandasAreBears"]
+license = "MIT"
+readme = "README.md"
