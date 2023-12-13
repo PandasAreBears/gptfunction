@@ -11,7 +11,7 @@ The `GPTFunction` Python module provides a decorator for wrapping Python functio
 ## Installation
 
 ```bash
-pip install gpt_function
+pip install gptfunction
 ```
 
 ## Usage
@@ -19,9 +19,9 @@ pip install gpt_function
 ### Basic Example
 
 ```python
-from gpt_function import gpt_function
+from gptfunction import gptfunction
 
-@gpt_function
+@gptfunction
 def output_user(name: str, age: int) -> None:
     """
     Outputs a user's name and age to the console.
@@ -37,7 +37,7 @@ gpt_tools = [output_user.schema()]
 ### Advanced Usage with Enums and Literals
 
 ```python
-from gpt_function import gpt_function
+from gptfunction import gptfunction
 from enum import Enum
 from typing import Literal
 
@@ -45,7 +45,7 @@ class Fruit(Enum):
     APPLE = 'apple'
     BANANA = 'banana'
 
-@gpt_function
+@gptfunction
 def favorite_fruit(user_name: str, fruit: Fruit, quantity: Literal[1, 2, 3]) -> str:
     """
     Returns a string stating the user's favorite fruit and quantity.
@@ -72,7 +72,7 @@ print(favorite_fruit.schema())
 
 ### Decorator
 
-- `@gpt_function`: This decorator should be used above the function definition. It processes the function and creates a GPT function schema.
+- `@gptfunction`: This decorator should be used above the function definition. It processes the function and creates a GPT function schema.
 
 ### Methods
 

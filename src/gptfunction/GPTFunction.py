@@ -228,5 +228,5 @@ class GPTFunction:
         )
 
 
-def gpt_function(func: Callable[..., Any]) -> GPTFunction:
+def gptfunction(func: Callable[..., Any]) -> GPTFunction:
     return GPTFunction(func)
