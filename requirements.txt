@@ -1,2 +1,3 @@
+build
 docstring_parser
-twine
+pytest

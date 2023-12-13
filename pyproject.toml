@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 authors = [{ "name" = "PandasAreBears" }]
 name = "gptfunction"
 readme = { file = "README.md", content-type = "text/markdown" }
-version = "0.1.2"
+version = "0.1.3"
 description = "A decorator for wrapping Python functions to generate an OpenAI GPT function calling schema."
 dependencies = ["docstring_parser"]
 license = { file = "LICENSE.md" }
