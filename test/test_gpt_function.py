@@ -1,7 +1,7 @@
 from typing import no_type_check
 import pytest
 
-from GPTFunction import GPTFunction, gpt_function
+from gptfunction import gptfunction, GPTFunction
 
 
 class TestParseParamType:
@@ -213,7 +213,7 @@ class TestDecorator:
     def test_decorator_on_func(self) -> None:
         RET_VAL = 5
 
-        @gpt_function
+        @gptfunction
         def my_func(a: int, b: str) -> int:
             """
             This is my func.
