@@ -1,1 +1,1 @@
-from GPTFunction import gptfunction, GPTFunction
+from .GPTFunction import gptfunction, GPTFunction
