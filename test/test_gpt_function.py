@@ -134,15 +134,18 @@ class TestCreateFunctionParams:
 
 class TestParseParams:
     def test_handles_function_with_no_params(self) -> None:
-        assert GPTFunction._parse_params([]) == {"type": "object", "properties": {}}
+        assert GPTFunction._parse_params([], use_required=False) == {
+            "type": "object",
+            "properties": {},
+        }
 
     def test_handles_function_with_params(self) -> None:
         params = [
-            GPTFunction._FunctionParam("a", int, "this is a"),
-            GPTFunction._FunctionParam("b", str, "this is b"),
+            GPTFunction._FunctionParam("a", int, "this is a", True),
+            GPTFunction._FunctionParam("b", str, "this is b", False),
         ]
 
-        result = GPTFunction._parse_params(params)
+        result = GPTFunction._parse_params(params, use_required=True)
 
         assert result == {
             "type": "object",
@@ -150,6 +153,7 @@ class TestParseParams:
                 "a": {"type": "int", "description": "this is a"},
                 "b": {"type": "string", "description": "this is b"},
             },
+            "required": ["a"],
         }
 
 
@@ -202,6 +206,7 @@ class TestSchema:
                             "enum": ["one", "two", "three"],
                         },
                     },
+                    "required": ["a", "b", "c", "d", "e"],
                 },
             },
         }
@@ -237,6 +242,7 @@ class TestDecorator:
                         "a": {"type": "int", "description": "this is a."},
                         "b": {"type": "string", "description": "this is b."},
                     },
+                    "required": ["a", "b"],
                 },
             },
         }
