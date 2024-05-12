@@ -76,7 +76,8 @@ print(favorite_fruit.schema())
 
 ### Methods
 
-- `schema()`: Returns the JSON schema of the wrapped function.
+- `schema(use_required: bool)`: Returns the JSON schema of the wrapped function.
+    - use_required: Indicates whether the schema should specify required parameters (default: True).
 - `description()`: Retrieves the function's description from its docstring.
 - `name()`: Returns the name of the function.
 

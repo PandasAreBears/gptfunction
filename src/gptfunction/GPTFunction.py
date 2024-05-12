@@ -48,6 +48,7 @@ class GPTFunction:
         name: str
         typing: type
         description: str
+        required: bool
 
     def __init__(self, func: Callable[..., Any]) -> None:
         self.func = func
@@ -65,7 +66,7 @@ class GPTFunction:
 
         return ""
 
-    def schema(self) -> object:
+    def schema(self, use_required: bool = True) -> object:
         """
         Generates the schema required for passing a function to GPT.
         """
@@ -79,6 +80,7 @@ class GPTFunction:
                     GPTFunction._create_function_params(
                         self.func.__annotations__, docstring.params
                     ),
+                    use_required=use_required,
                 ),
             },
         }
@@ -144,34 +146,49 @@ class GPTFunction:
         function_params = []
         for key in annotations:
             desc = ""
+            required = False
             if key in keyed_docstring_params:
                 desc = keyed_docstring_params[key].description
+                required = not keyed_docstring_params[key].is_optional
             else:
                 logging.warning(
                     f"Function param {key} has no docstring description. Add a docstring description for more accurate use by GPT."
                 )
 
             function_params.append(
-                GPTFunction._FunctionParam(key, annotations[key], desc)
+                GPTFunction._FunctionParam(
+                    name=key,
+                    typing=annotations[key],
+                    description=desc,
+                    required=required,
+                )
             )
 
         return function_params
 
     @staticmethod
-    def _parse_params(params: List[_FunctionParam]) -> Dict[str, Any]:
+    def _parse_params(
+        params: List[_FunctionParam], use_required: bool
+    ) -> Dict[str, Any]:
         """
         Converts a function's params into a 'parameters' object used by the function calling schema.
         :param params: The function parameters to parse into the schema.
         :return: The parameters part of the function calling schema.
         """
         schema_params: Dict[str, Any] = {}
+        required_params: list[str] = []
         for param in params:
             schema_params |= {
                 param.name: GPTFunction._parse_param_type(param.typing)
                 | {"description": param.description}
             }
+            if param.required:
+                required_params.append(param.name)
 
-        return {"type": "object", "properties": schema_params}
+        return {
+            "type": "object",
+            "properties": schema_params,
+        } | ({"required": required_params} if use_required else {})
 
     @staticmethod
     def _parse_param_type(
